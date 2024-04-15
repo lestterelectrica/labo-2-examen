@@ -1,0 +1,68 @@
+const int ledPin1 = 9;   // Pin para el primer LED
+const int ledPin2 = 10;  // Pin para el segundo LED
+const int ledPin3 = 11;  // Pin para el tercer LED
+
+const int potPin = A0;     // Pin para el potenciómetro
+const int buttonPin1 = 2;  // Pin para el primer botón
+const int buttonPin2 = 3;  // Pin para el segundo botón
+const int buttonPin3 = 4;  // Pin para el tercer botón
+
+int buttonState1 = 0;  // Variable para almacenar el estado del primer botón
+int buttonState2 = 0;  // Variable para almacenar el estado del segundo botón
+int buttonState3 = 0;  // Variable para almacenar el estado del tercer botón
+
+void setup() {
+  pinMode(ledPin1, OUTPUT);
+  pinMode(ledPin2, OUTPUT);
+  pinMode(ledPin3, OUTPUT);
+
+  pinMode(buttonPin1, INPUT);
+  pinMode(buttonPin2, INPUT);
+  pinMode(buttonPin3, INPUT);
+
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Lee el valor del potenciómetro
+  int potValue = analogRead(potPin);
+  int brightness = map(potValue, 0, 1023, 0, 255);
+  Serial.print(potValue);
+  Serial.print(",");
+  // Actualiza el brillo de los LEDs con el valor del potenciómetro
+  analogWrite(ledPin1, brightness);
+  analogWrite(ledPin2, brightness);
+  analogWrite(ledPin3, brightness);
+
+  // Lee el estado de los botones
+  buttonState1 = digitalRead(buttonPin1);
+  Serial.print(buttonState1);
+  Serial.print(",");
+  buttonState2 = digitalRead(buttonPin2);
+  Serial.print(buttonState2);
+  Serial.print(",");
+  buttonState3 = digitalRead(buttonPin3);
+  Serial.print(buttonState3);
+  Serial.print(",");
+
+  // Si se presiona un botón, enciende el LED correspondiente
+  if (buttonState1 == HIGH) {
+    digitalWrite(ledPin1, HIGH);
+  } else {
+    digitalWrite(ledPin1, LOW);
+  }
+
+  if (buttonState2 == HIGH) {
+    digitalWrite(ledPin2, HIGH);
+  } else {
+    digitalWrite(ledPin2, LOW);
+  }
+
+  if (buttonState3 == HIGH) {
+    digitalWrite(ledPin3, HIGH);
+  } else {
+    digitalWrite(ledPin3, LOW);
+  }
+
+  delay(1); // Añade un pequeño retardo para evitar la saturación del puerto serial
+}
